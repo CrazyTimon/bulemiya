@@ -147,3 +147,16 @@ body{
 	margin: 0;
 	padding: 0;
 }
+
+.step2{
+	display: none;
+	text-align: center;
+}
+
+#amount{
+	font-size: 35px;
+	width: 120px;
+	margin-top:15px;
+	margin-bottom:15px;
+	background: transparent;
+}

@@ -4,9 +4,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>MobilyBlocks</title>
 <link href="css/default.css" rel="stylesheet" type="text/css" />
-<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/jquery-1.9.0.js" type="text/javascript"></script>
+<link href="css/hot-sneaks/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+<script src="js/jquery-ui-1.10.0.custom.js"></script>
 <script src="js/mobilyblocks.js" type="text/javascript"></script>
 <script src="js/init.js" type="text/javascript"></script>
+<script>
+	$(function() {
+    $( "#slider" ).slider({
+      range: "min",
+      value: 35,
+      min: 15,
+      max: 120,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( ui.value + " кг." );
+      }
+    });
+    $( "#amount" ).val( "35 кг.");
+    $( "input[type=submit], button" )
+      .button()
+      .click(function( event ) {
+        event.preventDefault();
+      });
+  });
+</script>
 </head>
 
 <body>
@@ -17,14 +38,75 @@
 	<div id="content">
 		<div class="nature">
 			<ul class="reset">
-				<li><a href="#"><img src="img/age/young/young.jpg" alt="" /></a><div class="custom-circle-font">до 20 лет</div></li>
-				<li><a href="#"><img src="img/age/20/20.jpg" alt="" /></a><div class="custom-circle-font">20-30 лет</div></li>
-				<li><a href="#"><img src="img/age/30/30.jpg" alt="" /></a><div class="custom-circle-font">30-40 лет</div></li>
-				<li><a href="#"><img src="img/age/40/40.jpg" alt="" /></a><div class="custom-circle-font">40-60 лет</div></li>
-				<li><a href="#"><img src="img/age/60/60.jpg" alt="" /></a><div class="custom-circle-font">после 60</div></li>
+				<li><a href="#"><img src="img/age/young/young.jpg" alt="" /></a><div class="custom-circle-font">до 20 лет<input type="hidden" name="age" value="<20"></div></li>
+				<li><a href="#"><img src="img/age/20/20.jpg" alt="" /></a><div class="custom-circle-font">20-30 лет<input type="hidden" name="age" value="20-30"></div></li>
+				<li><a href="#"><img src="img/age/30/30.jpg" alt="" /></a><div class="custom-circle-font">30-40 лет<input type="hidden" name="age" value="30-40"></div></li>
+				<li><a href="#"><img src="img/age/40/40.jpg" alt="" /></a><div class="custom-circle-font">40-60 лет<input type="hidden" name="age" value="40-60"></div></li>
+				<li><a href="#"><img src="img/age/60/60.jpg" alt="" /></a><div class="custom-circle-font">после 60<input type="hidden" name="age" value=">60"></div></li>
 			</ul>			
 		</div>	
 	</div>
+<div class="step2">
+	<input type="submit" value="Я указала свой вес" />
+	<div class="amount">Мой вес: <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" /></div>
+	<div id="slider"></div>
+</div>
+<script type="text/javascript">
+	$(".reset>li").on("click", function(event){
+		console.log($(this).find("input[name=age]").val());
+		$(this).nextAll().hide('explode');
+		$(this).prevAll().hide('explode');
+		var new_img = "rgba(0, 0, 0, 0) url(" + $(this).find("img").attr("src") + ") no-repeat scroll 0% 0% / cover padding-box border-box"
+		$(this).fadeOut("slow", function(){
+			var nature = $(this).parent().parent();
+			nature.css("background", new_img);
+			nature.css("position", "absolute");
+			nature.css("top", nature.position().top);
+			nature.css("left", nature.position().left);
+			nature.animate({
+				width:50,
+				height:50,
+			    opacity: 0.8,
+			    top: "0px",
+			    left: "0px"
+		  	}, 1500
+		  	, function(){
+		  		$(".custom-caption").fadeOut("fast", function(){
+		  			$(".custom-caption").html("Укажите ваш вес");
+		  			$(".custom-caption").fadeIn();
+		  		});		  		
+		  		$(".step2").fadeIn("slow");
+		  	});
 
+		});
+	});
+
+	$(".step2>input[type=submit]").on("click", function(){
+		var step2 = $(this).parent();
+		$(this).animate({
+			opacity: 0.0,
+		}, 1000
+		, function(){
+			$(this).css("display", "none");
+		});
+		step2.find("#slider").animate({
+			opacity: 0.0,
+		}, 1000
+		, function(){
+			$(this).css("display", "none");
+		});
+		step2.find(".amount").html($("#amount"));
+		step2.css("position", "absolute");
+		step2.css("left", "43%");
+		step2.animate({
+				width:50,
+				height:50,
+			    opacity: 0.8,
+			    top: "60px",
+			    left: "0px"
+		  	}, 1500);
+		$("#amount").css("font-size","20px");
+	});
+</script>
 </body>
 </html>
