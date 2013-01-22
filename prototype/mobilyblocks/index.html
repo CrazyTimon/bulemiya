@@ -11,6 +11,7 @@
 <script src="js/init.js" type="text/javascript"></script>
 <script>
 	$(function() {
+	$( ".radio" ).buttonset();
     $( "#slider" ).slider({
       range: "min",
       value: 35,
@@ -52,6 +53,95 @@
 	<div id="slider"></div>
 	<div class="step2__description">передвиньте курсор, чтобы изменить вес</div>
 </div>
+
+<div class="step3">
+	<div class="step3__question">
+		Вы каждый день думаете о еде, диетах и о том, как похудеть
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio1" name="radio1" /><label for="radio1">да</label>
+    	<input type="radio" id="radio2" name="radio1" checked="checked" /><label for="radio2">нет</label>
+	</div>
+	<div class="step3__question">
+		Вы используете слабительные после приема пищи
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio3" name="radio2" /><label for="radio3">да</label>
+    	<input type="radio" id="radio4" name="radio2" checked="checked" /><label for="radio4">нет</label>
+	</div>
+	<div class="step3__question">
+		Вы используете мочегонные средства, чтобы именно похудеть или убрать опухлость лица после кутежа с едой.
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio5" name="radio3" /><label for="radio5">да</label>
+    	<input type="radio" id="radio6" name="radio3" checked="checked" /><label for="radio6">нет</label>
+	</div>
+	<div class="step3__question">
+		Вы специально организуете себе вырывание: закупая предварительно еду в магазине в больших количествах, закрываясь дома.
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio7" name="radio4" /><label for="radio7">да</label>
+    	<input type="radio" id="radio8" name="radio4" checked="checked" /><label for="radio8">нет</label>
+	</div>
+
+	<div class="step3__question">
+		Перед тем, как вырвать Вы едите до боли в желудке в большинстве случае даже трудно встать, чтобы дойти до туалета.
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio9" name="radio5" /><label for="radio9">да</label>
+    	<input type="radio" id="radio10" name="radio5" checked="checked" /><label for="radio10">нет</label>
+	</div>
+
+	<div class="step3__question">
+		Чувство сытости вызывает у Вас чувство паники
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio11" name="radio6" /><label for="radio11">да</label>
+    	<input type="radio" id="radio12" name="radio6" checked="checked" /><label for="radio12">нет</label>
+	</div>
+
+	<div class="step3__question">
+		Вы разрешаете себе переваривать только "диетичные" по Вашему мнению продукты (обезжиренный творог, огурцы, укроп и тд)
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio13" name="radio7" /><label for="radio13">да</label>
+    	<input type="radio" id="radio14" name="radio7" checked="checked" /><label for="radio14">нет</label>
+	</div>
+
+	<div class="step3__question">
+		Вы не можете себе никогда отказать в еде, когда присутствуете на праздниках или гостях где организован большой стол.
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio15" name="radio8" /><label for="radio15">да</label>
+    	<input type="radio" id="radio16" name="radio8" checked="checked" /><label for="radio16">нет</label>
+	</div>
+
+	<div class="step3__question">
+		У Вас вызывает тревогу отдых на курортах с пометкой "Все включено"
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio17" name="radio9" /><label for="radio17">да</label>
+    	<input type="radio" id="radio18" name="radio9" checked="checked" /><label for="radio18">нет</label>
+	</div>
+
+	<div class="step3__question">
+		В большинстве случаев возвращаясь с курорта Вы чувствуете себя еще больше уставшей из-за постоянной борьбы с едой, аппетитом и бесконечными вырываниями.
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio19" name="radio10" /><label for="radio19">да</label>
+    	<input type="radio" id="radio20" name="radio10" checked="checked" /><label for="radio20">нет</label>
+	</div>
+
+	<div class="step3__question">
+		Ваши партнеры в личной жизни, а так же друзья, как правило имеют зависимости. (алкоголь, наркотики, игроманинию, секс, еда и тд Либо являются маргинальными личностями: судимости, мошенники и тд)
+	</div>
+	<div class="radio">
+    	<input type="radio" id="radio21" name="radio11" /><label for="radio21">да</label>
+    	<input type="radio" id="radio22" name="radio11" checked="checked" /><label for="radio22">нет</label>
+	</div>
+</div>
+
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".custom-caption").slideDown(2000);
@@ -101,6 +191,12 @@
 		, function(){
 			$(this).css("display", "none");
 		});
+		step2.find(".step2__description").animate({
+			opacity: 0.0,
+		}, 1000
+		, function(){
+			$(this).remove();
+		});
 		step2.find(".amount").html($("#amount"));
 		step2.css("position", "absolute");
 		step2.css("left", "43%");
@@ -110,7 +206,9 @@
 			    opacity: 0.8,
 			    top: "60px",
 			    left: "0px"
-		  	}, 1500);
+		  	}, 1500, function(){
+		  		$(".step3").show("scale", 2500);
+		  	});
 		$("#amount").css("font-size","20px");
 	});
 </script>
