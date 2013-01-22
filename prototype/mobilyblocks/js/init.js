@@ -1,9 +1,9 @@
 $(function(){
 	
 	$('.nature').mobilyblocks({
-		trigger:'hoverCustom',
+		trigger:'instantly',
 		direction: 'counter',
-		duration:1000,
+		duration:3000,
 		zIndex:150,
 		widthMultiplier:1.2
 	});

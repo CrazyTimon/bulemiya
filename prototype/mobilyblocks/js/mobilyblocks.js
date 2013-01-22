@@ -20,9 +20,12 @@
                     dir = 1
                 }
             }
-            var socials = {init: function() {
+            var socials = {
+                init: function() {
                     parent.hide().css({zIndex: sets.zIndex});
                     $t.append($("<a />").addClass("trigger").css({display: "block",position: "absolute",zIndex: 1,top: 0,left: 0,width: "100%",height: "100%"}));
+                    $t.append($("<div />").addClass("quest_char").css({display: "block",position: "absolute",zIndex: 1,top: 0,left: 0,width: "100%",height: "100%"}));
+                    $t.find(".quest_char").html("?");
                     switch (sets.trigger) {
                         case "click":
                             socials.click();
@@ -33,9 +36,15 @@
                         case "hoverCustom":
                             socials.hoverCustom();
                             break;
+                        case "instantly":
+                            socials.instantlyShow();
                         default:
                             socials.click()
                     }
+                },instantlyShow:function() {
+                    parent.fadeTo(sets.duration, 1);
+                    socials.animation.open();
+                    $t.addClass("close")
                 },click: function() {
                     var trigger = $t.find("a.trigger");
                     trigger.bind("click", function() {

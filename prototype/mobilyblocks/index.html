@@ -48,10 +48,15 @@
 	</div>
 <div class="step2">
 	<input type="submit" value="Я указала свой вес" />
-	<div class="amount">Мой вес: <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" /></div>
+	<div class="amount">Мой вес: <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" disabled /></div>
 	<div id="slider"></div>
+	<div class="step2__description">передвиньте курсор, чтобы изменить вес</div>
 </div>
 <script type="text/javascript">
+	$(document).ready(function(){
+		$(".custom-caption").slideDown(2000);
+	});
+
 	$(".reset>li").on("click", function(event){
 		console.log($(this).find("input[name=age]").val());
 		$(this).nextAll().hide('explode');
@@ -59,6 +64,7 @@
 		var new_img = "rgba(0, 0, 0, 0) url(" + $(this).find("img").attr("src") + ") no-repeat scroll 0% 0% / cover padding-box border-box"
 		$(this).fadeOut("slow", function(){
 			var nature = $(this).parent().parent();
+			$(".quest_char").remove();// TODO Удаление вопроса
 			nature.css("background", new_img);
 			nature.css("position", "absolute");
 			nature.css("top", nature.position().top);
@@ -75,7 +81,7 @@
 		  			$(".custom-caption").html("Укажите ваш вес");
 		  			$(".custom-caption").fadeIn();
 		  		});		  		
-		  		$(".step2").fadeIn("slow");
+		  		$(".step2").fadeIn("slow");		  		
 		  	});
 
 		});
