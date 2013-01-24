@@ -181,7 +181,7 @@ body{
 	background: #FFF url(../img/knife_fork_rendered_1.png) 50% 50% repeat !important;
 }
 
-.step3{
+.steps{
 	font-weight: normal;
 	color: #585858;
 	border: 1px solid #FFA8E8;
@@ -206,4 +206,10 @@ body{
 
 .step3__question{
 	font-size: 14px;
+}
+.submit3{
+	margin-top: 15px;
+}
+.mod_text_red{
+	color:#FF2222;
 }
