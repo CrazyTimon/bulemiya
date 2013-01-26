@@ -6,9 +6,11 @@
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery-1.9.0.js" type="text/javascript"></script>
 <link href="css/hot-sneaks/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+<link href="css/tipTip.css" rel="stylesheet">
 <script src="js/jquery-ui-1.10.0.custom.js"></script>
 <script src="js/mobilyblocks.js" type="text/javascript"></script>
 <script src="js/init.js" type="text/javascript"></script>
+<script src="js/jquery.tipTip.js"></script>
 <script>
 	function auto_edit_questions(step, quest_arr, next_step, you_have, you_have_not){
 		$.each(quest_arr, function(i, val){
@@ -61,11 +63,11 @@
 			'2. Вы не едите целый день и когда съедаете 1 шоколадку вырываете ее.',
 			'3. Вам не надо наедаться до боли, чтобы вырывать.',
 			'4. Вас раздражает беспорядок в доме и вы всегда стараетесь поддерживать идеальную чистоту в доме, на столе, в шкафу.',
-			'5. У вас высокие умственные способности (вы можете критиковать себя за недостаточность ума, но вы знаете, что можете все понять)',
-			'6. Вам нужно все и всех контролировать. Все зависит от вас - в этом вы уверенны!'];
-		auto_edit_questions($(".step4"), questions_step4, ".step5", "У вас нет анорексии", "У вас анорексия" );
-		auto_edit_questions($(".step5"), questions_step5, ".step6", "У вас нет Компульсивного - переедания", "У вас Компульсивное - переедание");
-		auto_edit_questions($(".step6"), questions_step6, ".step7", "У вас нет Булимистической - анорексии", "У вас Булимистическая - анорексия");
+			'5. У Вас высокие умственные способности (вы можете критиковать себя за недостаточность ума, но вы знаете, что можете все понять)',
+			'6. Вам нужно все и всех контролировать. Все зависит от Вас - в этом вы уверенны!'];
+		auto_edit_questions($(".step4"), questions_step4, ".step5", "У Вас нет анорексии", "У Вас анорексия" );
+		auto_edit_questions($(".step5"), questions_step5, ".step6", "У Вас нет Компульсивного - переедания", "У Вас Компульсивное - переедание");
+		auto_edit_questions($(".step6"), questions_step6, ".step7", "У Вас нет Булимистической - анорексии", "У Вас Булимистическая - анорексия");
 
 	$.each($( ".radio" ),function(){
 		$(this).buttonset();
@@ -117,7 +119,7 @@
 	<div class="step2__description">передвиньте курсор, чтобы изменить вес</div>
 </div>
 
-<div class="steps step3" id="step3">
+<div class="steps step3 solution_tip" id="step3">
 	<div class="step3__question">
 		Вы каждый день думаете о еде, диетах и о том, как похудеть
 	</div>
@@ -203,7 +205,7 @@
     	<input type="radio" id="radio22" name="radio11" checked="checked" /><label for="radio22">нет</label>
 	</div>
 	<hr>
-	<a href="#" class="submit3" next=".step4" you-have="У вас нет булемии" you-have-not="У вас булемиия">Я прошла этот тест и готова перейти к следующему</a>
+	<a href="#" class="submit3" next=".step4" you-have="У Вас нет булемии" you-have-not="У Вас булемиия">Я прошла этот тест и готова перейти к следующему</a>
 </div>
 
 <div class="steps step4" id="step4">
@@ -219,29 +221,29 @@
 </div>
 
 <div id="step3step4" style="display:none;">
-	<p>2. У вас булимистическая - анорексия.</p>
-	<p>Вы имеете нормальный вес или чуть ниже нормы. У вас очень строгое отношение к себе, еде. Вы
+	<p>2. У Вас булимистическая - анорексия.</p>
+	<p>Вы имеете нормальный вес или чуть ниже нормы. У Вас очень строгое отношение к себе, еде. Вы
 	можете вырвать даже, если выпили просто сока или молока.</p>
 	<p>Вы начинали вырывать, чтобы похудеть или удержать вес, но со временем вызываемая рвота
 	сформировалась в отдельное заболевание.</p>
 </div>
 <div id="step4step5" style="display:none;">
-	<p>2. У вас булимистическая - анорексия.</p>
-	<p>Вы имеете нормальный вес или чуть ниже нормы. У вас очень строгое отношение к себе, еде. Вы
+	<p>2. У Вас булимистическая - анорексия.</p>
+	<p>Вы имеете нормальный вес или чуть ниже нормы. У Вас очень строгое отношение к себе, еде. Вы
 	можете вырвать даже, если выпили просто сока или молока.</p>
 	<p>Вы начинали вырывать, чтобы похудеть или удержать вес, но со временем вызываемая рвота
 	сформировалась в отдельное заболевание.</p>
 </div>
 <div id="step5step6" style="display:none;">
-	<p>2. У вас булимистическая - анорексия.</p>
-	<p>Вы имеете нормальный вес или чуть ниже нормы. У вас очень строгое отношение к себе, еде. Вы
+	<p>2. У Вас булимистическая - анорексия.</p>
+	<p>Вы имеете нормальный вес или чуть ниже нормы. У Вас очень строгое отношение к себе, еде. Вы
 	можете вырвать даже, если выпили просто сока или молока.</p>
 	<p>Вы начинали вырывать, чтобы похудеть или удержать вес, но со временем вызываемая рвота
 	сформировалась в отдельное заболевание.</p>
 </div>
 <div id="step6undefined" style="display:none;">
-	<p>2. У вас булимистическая - анорексия.</p>
-	<p>Вы имеете нормальный вес или чуть ниже нормы. У вас очень строгое отношение к себе, еде. Вы
+	<p>2. У Вас булимистическая - анорексия.</p>
+	<p>Вы имеете нормальный вес или чуть ниже нормы. У Вас очень строгое отношение к себе, еде. Вы
 	можете вырвать даже, если выпили просто сока или молока.</p>
 	<p>Вы начинали вырывать, чтобы похудеть или удержать вес, но со временем вызываемая рвота
 	сформировалась в отдельное заболевание.</p>
@@ -253,10 +255,9 @@
 		$(".submit3").on("click", function(){
 			var container = $(this).parent(),
 				next_container = $($(this).attr("next")),//$(".step4"),
-				result_text = [$(this).attr("you-have"), $(this).attr("you-have-not")];				
+				result_text = [$(this).attr("you-have"), $(this).attr("you-have-not")];			
 			refactor_validate(container, next_container, result_text);
 		});
-		//$( "#step6" ).dialog();
 	});
 
 	$(".reset>li").on("click", function(event){
@@ -348,7 +349,7 @@
 				width:300,
 				height:50,
 			    opacity: 0.8,
-			    top: container.prev().position().top + 60 + "px",
+			    top: container.prev().position().top + 90 + "px",
 			    left: "0px",
 		  	}, 1500, function(){
 		  		container.on("click", function(){
@@ -367,6 +368,14 @@
 		  			});
 		  		});
 		  		next_container.show("scale", 2500);
+				$(".solution_tip").tipTip({
+					defaultPosition:"top",
+					activation: "hover",
+					keepAlive:true,
+					content:"нажмите на результат, чтобы узнать подробности",
+					maxWidth: "260px"
+				});
+				$('.solution_tip').trigger('mouseenter');
 		  	});
 	}
 </script>
