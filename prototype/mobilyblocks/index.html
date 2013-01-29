@@ -12,62 +12,139 @@
 <script src="js/init.js" type="text/javascript"></script>
 <script src="js/jquery.tipTip.js"></script>
 <script>
-	function auto_edit_questions(step, quest_arr, next_step, you_have, you_have_not){
-		$.each(quest_arr, function(i, val){
-			var questions = 
-			'<div class="step3__question">\
-				'+ val + '\
-			</div>\
-			<div class="radio">\
-		    	<input type="radio" id="radio' + step.attr("id") + i + '_1" name="radio' + step.attr("id") + i + '" value="yes"/><label for="radio' + step.attr("id") + i + '_1">да</label>\
-		    	<input type="radio" id="radio' + step.attr("id") + i + '_2" name="radio' + step.attr("id") + i + '" checked="checked" /><label for="radio' + step.attr("id") + i + '_2">нет</label>\
-			</div>';
-			step.append(questions);
-		});
-		step.append('<hr><a href="#" class="submit3" next="' + next_step + '" you-have="' + you_have + '" you-have-not="'+ you_have_not + '">Я прошла этот тест и готова перейти к следующему</a>');
+	
+	function sRand() { // Случайная
+    	return Math.random() > 0.5 ? 1 : -1;
 	}
 
+	function print_r(arrayToPrint){
+		return $.each(arrayToPrint, function(index, value){
+			if( arrayToPrint.length-1 == index ){
+				return value; 
+			}
+			return value + ",";
+		});
+	}
+
+
+	function questionsObject(){
+		var __questions = [],
+			__text = "",
+			__bulemiya = 0,
+			__anoreksiya = 0,
+			__kompulsivnaya_anoreks = 0,
+			__bulimist_anoreks = 0
+
+		this.init = function(){
+			this.__questions = [],
+			this.__text = "",
+			this.__bulemiya = 0,
+			this.__anoreksiya = 0,
+			this.__kompulsivnaya_anoreks = 0,
+			this.__bulimist_anoreks = 0			
+		}
+		this.setQuestions = function(array){
+			this.__questions = array;
+		}
+
+		this.render = function(selector){
+			selector;
+		}
+
+		this.check_trouble = function(){
+			var arr =[this.__bulemiya, this.__anoreksiya, this.__kompulsivnaya_anoreks, this.__bulimist_anoreks];
+			var max_el = {key:0, value:0};
+			$.each(arr, function(index, val){
+				console.log(index);
+				if(parseInt(max_el.value) < parseInt(val)){
+					max_el.value = val;
+					max_el.key = index;
+				}
+			});
+			var message = "";
+			switch (max_el.key)
+			{
+			case 0:
+			  message ="булимия";
+			  break;
+			case 1:
+			  message ="анорексия";
+			  break;
+			case 2:
+			  message ="компульсивное переедание";
+			  break;
+			case 3:
+			  message ="булимистическая анорексия";
+			  break;
+			}
+			return "максимальное " + max_el.value + " баллов за " + message; 
+		}
+
+		this.auto_edit_questions = function(step, next_step, you_have, you_have_not, per_page) {
+				$.each(this.__questions, function(i, val){
+					if(i == per_page){return false;}
+					var questions = 
+					'<div class="step3__question">\
+						'+ val.text + '\
+					</div>\
+					<div class="radio">\
+				    	<input type="radio" id="radio' + step.attr("id") + i + '_1" name="radio' + step.attr("id") + i + '" evals="' + print_r(val.evals) + '" value="yes"/><label for="radio' + step.attr("id") + i + '_1">да</label>\
+				    	<input type="radio" id="radio' + step.attr("id") + i + '_2" name="radio' + step.attr("id") + i + '" checked="checked" /><label for="radio' + step.attr("id") + i + '_2">нет</label>\
+					</div>';
+					step.append(questions);
+				});
+				step.append('<hr><a href="#" class="submit3" next="' + next_step + '" you-have="' + you_have + '" you-have-not="'+ you_have_not + '">Я прошла этот тест и готова перейти к следующему</a>');
+			}
+	}
+	/*
+		1-булимия
+		2-анорексия
+		3-компульсивное переедание
+		4-булимистическая анорексия
+	*/
 	$(function() {
-		var questions_step4 = [
-			'1. Вы потеряли за последний год резко большой вес.',
-			'2. Вы ежедневно занимаетесь спортом (дома или в спортзале. Дома можете приседать, если сьели, допустим, йогурт)',
-			'3. Вы ненавидите слово "жир". К этому слову у Вас зависимое отношение: юмористические фото, картинке в интернете, смотря на себя произносите слово "жир" и видите только его.',
-			'4. Вы состоите в социальной сети в группе анорексиков или тех кто весит не более 50 кг.',
-			'5. Ваш вес не более 45 кг. И Вы хотите похудеть еще больше.',
-			'6. Все вокруг Вам говорят, что Вы жутко худая и похожи на скелет',
-			'7. Когда Вы слышите от окружающих, что Вы похожи на скелет, что Вы плохо выглядите и остались от Вас только кости Вы тайно радуетесь таким негативным оценкам',
-			'8. В описании внешности девушки Вам тайно нравится слово "кости" - это слово вызывает возбуждение',
-			'9. Вы просматриваете постоянно журналы мод, информацию о моде и моделях.',
-			'10. Вы каждый день считаете каллории.',
-			'11. Вы едите не более 500 каллорий в день.',
-			'12. Вы часто мерзнете и испытываете холод в теле',
-			'13. Вы постоянно ненавидите себя и внутри ругаете себя уничижительными словами.',
-			'14. Вы практически не спите или очень трудно уснуть.',
-			'15. У Вас нет сил встать с кровати',
-			'16. Вы хотите еще похудеть и тогда начать жить: работать, любить, ходить в компании и тд.',
-			'17. Вы постоянно ощупываете себя, кости: тазобедренные, около шеи. Вы собираете фото девушек на которых они показывают свои кости на тех или иных участках тела, спина, тазобедренная часть и тд',
-			'18. Вы очень гордитесь тем, что Вам удалось вообще отказаться от еды.',
-			'19. Вы гордитесь, что у Вас есть воля, сила духа в том, чтобы перестать есть.',
-			'20. Нарушен у Вас менструальный цикл (менструации нет несколько месяцев и более)'
-		];
-		var questions_step5 = [
-			'1. Вы постоянно думаете о еде',
-			'2. Вы испытываете голод сразу же после еды даже тогда, когда очень плотно поели',
-			'3. Вы едите каждые 2-3 часа с утра и до вечера',
-			'4. Вы постоянно сидите на разных диетах',
-			'5. Ваш вес скачет от 10 кг, то вверх, то вниз',
-			'6. Ваш нынешний вес выше нормы на 15-20 кг., (норма определяется по формуле Брока)'
-		];
-		var questions_step6 = [
-			'1. Вы вырываете маленький обьем еды: 1 шоколадку или сок, 1 мороженое и тд.',
-			'2. Вы не едите целый день и когда съедаете 1 шоколадку вырываете ее.',
-			'3. Вам не надо наедаться до боли, чтобы вырывать.',
-			'4. Вас раздражает беспорядок в доме и вы всегда стараетесь поддерживать идеальную чистоту в доме, на столе, в шкафу.',
-			'5. У Вас высокие умственные способности (вы можете критиковать себя за недостаточность ума, но вы знаете, что можете все понять)',
-			'6. Вам нужно все и всех контролировать. Все зависит от Вас - в этом вы уверенны!'];
-		auto_edit_questions($(".step4"), questions_step4, ".step5", "У Вас нет анорексии", "У Вас анорексия" );
+		var questions_steps = [
+			{text:'1. Вы потеряли за последний год резко большой вес.', evals:[2]},
+			{text:'2. Вы ежедневно занимаетесь спортом (дома или в спортзале. Дома можете приседать, если сьели, допустим, йогурт)', evals:[2]},
+			{text:'3. Вы ненавидите слово "жир". К этому слову у Вас зависимое отношение: юмористические фото, картинке в интернете, смотря на себя произносите слово "жир" и видите только его.', evals:[2]},
+			{text:'4. Вы состоите в социальной сети в группе анорексиков или тех кто весит не более 50 кг.', evals:[2]},
+			{text:'5. Ваш вес не более 45 кг. И Вы хотите похудеть еще больше.', evals:[2]},
+			{text:'6. Все вокруг Вам говорят, что Вы жутко худая и похожи на скелет', evals:[2]},
+			{text:'7. Когда Вы слышите от окружающих, что Вы похожи на скелет, что Вы плохо выглядите и остались от Вас только кости Вы тайно радуетесь таким негативным оценкам', evals:[2]},
+			{text:'8. В описании внешности девушки Вам тайно нравится слово "кости" - это слово вызывает возбуждение', evals:[2]},
+			{text:'9. Вы просматриваете постоянно журналы мод, информацию о моде и моделях.', evals:[2]},
+			{text:'10. Вы каждый день считаете каллории.', evals:[1,2,3,4]},
+			{text:'11. Вы едите не более 500 каллорий в день.', evals:[2]},
+			{text:'12. Вы часто мерзнете и испытываете холод в теле', evals:[2,4]},
+			{text:'13. Вы постоянно ненавидите себя и внутри ругаете себя уничижительными словами.', evals:[2]},
+			{text:'14. Вы практически не спите или очень трудно уснуть.', evals:[1,2,4]},
+			{text:'15. У Вас нет сил встать с кровати', evals:[1,2,4]},
+			{text:'16. Вы хотите еще похудеть и тогда начать жить: работать, любить, ходить в компании и тд.', evals:[1,2,3,4]},
+			{text:'17. Вы постоянно ощупываете себя, кости: тазобедренные, около шеи. Вы собираете фото девушек на которых они показывают свои кости на тех или иных участках тела, спина, тазобедренная часть и тд', evals:[2]},
+			{text:'18. Вы очень гордитесь тем, что Вам удалось вообще отказаться от еды.', evals:[2]},
+			{text:'19. Вы гордитесь, что у Вас есть воля, сила духа в том, чтобы перестать есть.', evals:[2]},
+			{text:'20. Нарушен у Вас менструальный цикл (менструации нет несколько месяцев и более)', evals:[1,2,3,4]},
+			{text:'1. Вы постоянно думаете о еде', evals:[1,2,3,4]},
+			{text:'2. Вы испытываете голод сразу же после еды даже тогда, когда очень плотно поели', evals:[3]},
+			{text:'3. Вы едите каждые 2-3 часа с утра и до вечера', evals:[3]},
+			{text:'4. Вы постоянно сидите на разных диетах', evals:[1,2,3,4]},
+			{text:'5. Ваш вес скачет от 10 кг, то вверх, то вниз', evals:[1,2,3]},
+			{text:'6. Ваш нынешний вес выше нормы на 15-20 кг., (норма определяется по формуле Брока)', evals:[1,3]},
+			{text:'1. Вы вырываете маленький обьем еды: 1 шоколадку или сок, 1 мороженое и тд.', evals:[4]},
+			{text:'2. Вы не едите целый день и когда съедаете 1 шоколадку вырываете ее.', evals:[4]},
+			{text:'3. Вам не надо наедаться до боли, чтобы вырывать.', evals:[1,4]},
+			{text:'4. Вас раздражает беспорядок в доме и вы всегда стараетесь поддерживать идеальную чистоту в доме, на столе, в шкафу.', evals:[4]},
+			{text:'6. Вам нужно все и всех контролировать. Все зависит от Вас - в этом вы уверенны!', evals:[2,4]}];
+
+		Anket_Questions = new questionsObject();
+		Anket_Questions.init();
+		Anket_Questions.setQuestions(questions_steps);
+		Anket_Questions.auto_edit_questions($(".step4"), ".step5", "У Вас нет анорексии", "У Вас анорексия", 10);
+		Anket_Questions.auto_edit_questions($(".step5"), ".step6", "У Вас нет анорексии", "У Вас анорексия", 11);
+		Anket_Questions.auto_edit_questions($(".step6"), ".step7", "У Вас нет анорексии", "У Вас анорексия", 9);
+		/*auto_edit_questions($(".step4"), questions_steps, ".step5", "У Вас нет анорексии", "У Вас анорексия", 10 );
 		auto_edit_questions($(".step5"), questions_step5, ".step6", "У Вас нет Компульсивного - переедания", "У Вас Компульсивное - переедание");
-		auto_edit_questions($(".step6"), questions_step6, ".step7", "У Вас нет Булимистической - анорексии", "У Вас Булимистическая - анорексия");
+		auto_edit_questions($(".step6"), questions_step6, ".step7", "У Вас нет Булимистической - анорексии", "У Вас Булимистическая - анорексия");*/
 
 	$.each($( ".radio" ),function(){
 		$(this).buttonset();
@@ -124,28 +201,28 @@
 		Вы каждый день думаете о еде, диетах и о том, как похудеть
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio1" name="radio1" value="yes"/><label for="radio1">да</label>
+    	<input type="radio" id="radio1" name="radio1" evals="1,2,3,4" value="yes"/><label for="radio1">да</label>
     	<input type="radio" id="radio2" name="radio1" checked="checked" /><label for="radio2">нет</label>
 	</div>
 	<div class="step3__question">
 		Вы используете слабительные после приема пищи
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio3" name="radio2" value="yes"/><label for="radio3">да</label>
+    	<input type="radio" id="radio3" name="radio2" evals="1,2,3,4" value="yes"/><label for="radio3">да</label>
     	<input type="radio" id="radio4" name="radio2" checked="checked" /><label for="radio4">нет</label>
 	</div>
 	<div class="step3__question">
 		Вы используете мочегонные средства, чтобы именно похудеть или убрать опухлость лица после кутежа с едой.
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio5" name="radio3" value="yes"/><label for="radio5">да</label>
+    	<input type="radio" id="radio5" name="radio3" evals="1,2,3,4" value="yes"/><label for="radio5">да</label>
     	<input type="radio" id="radio6" name="radio3" checked="checked" /><label for="radio6">нет</label>
 	</div>
 	<div class="step3__question">
 		Вы специально организуете себе вырывание: закупая предварительно еду в магазине в больших количествах, закрываясь дома.
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio7" name="radio4" value="yes"/><label for="radio7">да</label>
+    	<input type="radio" id="radio7" name="radio4" evals="1,2,3,4" value="yes"/><label for="radio7">да</label>
     	<input type="radio" id="radio8" name="radio4" checked="checked" /><label for="radio8">нет</label>
 	</div>
 
@@ -153,7 +230,7 @@
 		Перед тем, как вырвать Вы едите до боли в желудке в большинстве случае даже трудно встать, чтобы дойти до туалета.
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio9" name="radio5" value="yes"/><label for="radio9">да</label>
+    	<input type="radio" id="radio9" name="radio5" evals="1,2,3,4" value="yes"/><label for="radio9">да</label>
     	<input type="radio" id="radio10" name="radio5" checked="checked" /><label for="radio10">нет</label>
 	</div>
 
@@ -161,7 +238,7 @@
 		Чувство сытости вызывает у Вас чувство паники
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio11" name="radio6" value="yes"/><label for="radio11">да</label>
+    	<input type="radio" id="radio11" name="radio6" evals="1,2,3,4" value="yes"/><label for="radio11">да</label>
     	<input type="radio" id="radio12" name="radio6" checked="checked" /><label for="radio12">нет</label>
 	</div>
 
@@ -169,7 +246,7 @@
 		Вы разрешаете себе переваривать только "диетичные" по Вашему мнению продукты (обезжиренный творог, огурцы, укроп и тд)
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio13" name="radio7" value="yes"/><label for="radio13">да</label>
+    	<input type="radio" id="radio13" name="radio7" evals="1,2,3,4" value="yes"/><label for="radio13">да</label>
     	<input type="radio" id="radio14" name="radio7" checked="checked" /><label for="radio14">нет</label>
 	</div>
 
@@ -177,7 +254,7 @@
 		Вы не можете себе никогда отказать в еде, когда присутствуете на праздниках или гостях где организован большой стол.
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio15" name="radio8" value="yes"/><label for="radio15">да</label>
+    	<input type="radio" id="radio15" name="radio8" evals="1,2,3,4" value="yes"/><label for="radio15">да</label>
     	<input type="radio" id="radio16" name="radio8" checked="checked" /><label for="radio16">нет</label>
 	</div>
 
@@ -185,7 +262,7 @@
 		У Вас вызывает тревогу отдых на курортах с пометкой "Все включено"
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio17" name="radio9"  value="yes"/><label for="radio17">да</label>
+    	<input type="radio" id="radio17" name="radio9" evals="1,2,3,4"  value="yes"/><label for="radio17">да</label>
     	<input type="radio" id="radio18" name="radio9" checked="checked" /><label for="radio18">нет</label>
 	</div>
 
@@ -193,7 +270,7 @@
 		В большинстве случаев возвращаясь с курорта Вы чувствуете себя еще больше уставшей из-за постоянной борьбы с едой, аппетитом и бесконечными вырываниями.
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio19" name="radio10" value="yes"/><label for="radio19">да</label>
+    	<input type="radio" id="radio19" name="radio10" evals="1,2,3,4" value="yes"/><label for="radio19">да</label>
     	<input type="radio" id="radio20" name="radio10" checked="checked" /><label for="radio20">нет</label>
 	</div>
 
@@ -201,7 +278,7 @@
 		Ваши партнеры в личной жизни, а так же друзья, как правило имеют зависимости. (алкоголь, наркотики, игроманинию, секс, еда и тд Либо являются маргинальными личностями: судимости, мошенники и тд)
 	</div>
 	<div class="radio">
-    	<input type="radio" id="radio21" name="radio11" value="yes"/><label for="radio21">да</label>
+    	<input type="radio" id="radio21" name="radio11" evals="1,2,3,4" value="yes"/><label for="radio21">да</label>
     	<input type="radio" id="radio22" name="radio11" checked="checked" /><label for="radio22">нет</label>
 	</div>
 	<hr>
@@ -259,6 +336,52 @@
 			refactor_validate(container, next_container, result_text);
 		});
 	});
+
+	function refactor_validate(container, next_container, new_text){
+		var succ_checked = container.find("input:checked[value=yes]");
+		var all_checkboxes = container.find("input:checked");//ОПАСНО ТАК ДЕЛАТЬ
+		$.each(succ_checked, function(index, value){
+			var evals = $(value).attr("evals").split(",");
+			$.each(evals, function(i,v){
+				if(v=="1"){Anket_Questions.__bulemiya++;}
+				if(v=="2"){Anket_Questions.__anoreksiya++}
+				if(v=="3"){Anket_Questions.__kompulsivnaya_anoreks++}
+				if(v=="4"){Anket_Questions.__bulimist_anoreks++}
+			});	
+		});
+		alert(Anket_Questions.check_trouble());
+		var result_text = new_text[0];
+		if(succ_checked.size()==all_checkboxes.size()){
+			result_text = "<div class='mod_text_red'>" + new_text[1] + "</div>";
+		}
+		container.hide("slide", { direction: "left" }, 500,
+						function(){
+					  		container.on("click", function(){
+					  			var selector = container.attr("id")+next_container.attr("id");
+					  			$("#"+selector).dialog()
+					  		});
+					  		container.on("mouseenter", function(){
+					  			$(this).css({
+					  				"cursor":"pointer",
+					  				"opacity":"1"
+					  			});
+					  		});
+					  		container.on("mouseleave", function(){
+					  			$(this).css({
+					  				"opacity":"0.8"
+					  			});
+					  		});
+					  		next_container.show("slide", { direction: "right" }, 500 );
+							$(".solution_tip").tipTip({
+								defaultPosition:"top",
+								activation: "hover",
+								keepAlive:true,
+								content:"нажмите на результат, чтобы узнать подробности",
+								maxWidth: "260px"
+							});
+							$('.solution_tip').trigger('mouseenter');
+		  				});
+	}
 
 	$(".reset>li").on("click", function(event){
 		console.log($(this).find("input[name=age]").val());
@@ -320,64 +443,11 @@
 			    top: "60px",
 			    left: "0px"
 		  	}, 1500, function(){
-		  		$(".step3").show("scale", 2500);
+		  		$(".step3").show("scale", 2500);//check_this
 		  	});
 		$("#amount").css("font-size","20px");
 	});
 
-	function refactor_validate(container, next_container, new_text){
-		var succ_checked = container.find("input:checked[value=yes]");
-		var all_checkboxes = container.find("input:checked");//ОПАСНО ТАК ДЕЛАТЬ
-		var result_text = new_text[0];
-		if(succ_checked.size()==all_checkboxes.size()){
-			result_text = "<div class='mod_text_red'>" + new_text[1] + "</div>";
-		}
-		container.html(result_text);
-		container.css({
-			"position": 	"absolute",
-			"padding": 		"0",
-			"margin": 		"0",
-			"color": 		"#229922",
-			"line-height": 	"50px",
-			"font-size":	"12px",
-			"font-weight":	"bold",
-			"top": 			"200px",
-			"left": 		"400px",
-			"border-radius":"50%"
-		});
-		container.animate({
-				width:300,
-				height:50,
-			    opacity: 0.8,
-			    top: container.prev().position().top + 90 + "px",
-			    left: "0px",
-		  	}, 1500, function(){
-		  		container.on("click", function(){
-		  			var selector = container.attr("id")+next_container.attr("id");
-		  			$("#"+selector).dialog()
-		  		});
-		  		container.on("mouseenter", function(){
-		  			$(this).css({
-		  				"cursor":"pointer",
-		  				"opacity":"1"
-		  			});
-		  		});
-		  		container.on("mouseleave", function(){
-		  			$(this).css({
-		  				"opacity":"0.8"
-		  			});
-		  		});
-		  		next_container.show("scale", 2500);
-				$(".solution_tip").tipTip({
-					defaultPosition:"top",
-					activation: "hover",
-					keepAlive:true,
-					content:"нажмите на результат, чтобы узнать подробности",
-					maxWidth: "260px"
-				});
-				$('.solution_tip').trigger('mouseenter');
-		  	});
-	}
 </script>
 </body>
 </html>
