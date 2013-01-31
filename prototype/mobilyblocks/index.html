@@ -104,8 +104,8 @@
 			var arr =[this.__bulemiya, this.__anoreksiya, this.__kompulsivnaya_anoreks, this.__bulimist_anoreks];
 			var max_el = {key:0, value:0};
 			if(this.__age != "<20" && parseInt(this.__weight)>60){
-					arr[1] = -1;
-					arr[3] = -1;
+				arr[1] = -1;
+				arr[3] = -1;
 			} else if(parseInt(this.__weight)<60){
 				arr[0] = -1;
 				arr[2] = -1;
@@ -210,11 +210,11 @@
 		Anket_Questions.init();
 		Anket_Questions.setQuestions(questions_steps);
 		Anket_Questions.auto_edit_questions($(".step3"), ".step4", 7);
-		/*Anket_Questions.auto_edit_questions($(".step4"), ".step5", 7);
+		Anket_Questions.auto_edit_questions($(".step4"), ".step5", 7);
 		Anket_Questions.auto_edit_questions($(".step5"), ".step6", 7);
 		Anket_Questions.auto_edit_questions($(".step6"), ".step7", 7);
 		Anket_Questions.auto_edit_questions($(".step7"), ".step8", 7);
-		*/Anket_Questions.auto_edit_questions($(".step4"), "last_step", 7);
+		Anket_Questions.auto_edit_questions($(".step8"), "last_step", 7);
 		Anket_Questions.getResult(".last_step")
 
 	$.each($( ".radio" ),function(){
