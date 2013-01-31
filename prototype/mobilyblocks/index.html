@@ -34,15 +34,27 @@
 			__anoreksiya = 0,
 			__kompulsivnaya_anoreks = 0,
 			__bulimist_anoreks = 0,
+			__weight = "30",
+			__age = "<20",
 			__cursorArrayPosition = 0;
 		this.init = function(){
 			this.__questions = [],
 			this.__text = "",
 			this.__bulemiya = 0,
 			this.__anoreksiya = 0,
+			this.__weight = "30",
+			this.__age = "<20",
 			this.__kompulsivnaya_anoreks = 0,
 			this.__bulimist_anoreks = 0,
 			this.__cursorArrayPosition = 0		
+		}
+
+		this.setAge = function(val){
+			this.__age = val;
+		}
+
+		this.setWeight = function(val){
+			this.__weight = val;
 		}
 
 		this.setQuestions = function(array){
@@ -72,11 +84,18 @@
 			 <p>Вы начинали вырывать, чтобы похудеть или удержать вес, но со временем вызываемая рвота сформировалась в отдельное заболевание.</p>',
 			];
 			var main_object = this;
+			/*
+				1-булимия
+				2-анорексия
+				3-компульсивное переедание
+				4-булимистическая анорексия
+			*/
 			$(selector).on("click", function(){
 				var result_box = "";
 				$(this).parent().hide("clip", 1000 , function(){
 					$(this).html(text[main_object.check_trouble()]);
 					$(this).show("clip", 2000);
+					$(this).css("padding", "5px 30px");
 				});
 			});
 		}
@@ -84,6 +103,13 @@
 		this.check_trouble = function(){
 			var arr =[this.__bulemiya, this.__anoreksiya, this.__kompulsivnaya_anoreks, this.__bulimist_anoreks];
 			var max_el = {key:0, value:0};
+			if(this.__age != "<20" && parseInt(this.__weight)>60){
+					arr[1] = -1;
+					arr[3] = -1;
+			} else if(parseInt(this.__weight)<60){
+				arr[0] = -1;
+				arr[2] = -1;
+			}
 			$.each(arr, function(index, val){
 				console.log(index);
 				if(parseInt(max_el.value) < parseInt(val)){
@@ -92,23 +118,6 @@
 				}
 			});
 			return max_el.key;
-			/*var message = "";
-			switch (max_el.key)
-			{
-			case 0:
-			  message ="булимия";
-			  break;
-			case 1:
-			  message ="анорексия";
-			  break;
-			case 2:
-			  message ="компульсивное переедание";
-			  break;
-			case 3:
-			  message ="булимистическая анорексия";
-			  break;
-			}
-			return "максимальное " + max_el.value + " баллов за " + message; */
 		}
 
 		this.auto_edit_questions = function(step, next_step, per_page) {
@@ -135,6 +144,10 @@
 			      .button()
 			      .click(function( event ) {
 			        event.preventDefault();
+        			$(".custom-caption").hide("slide",{ direction: "up" }, 500, function(){
+		  				$(".custom-caption").html("Результат");
+		  				$(".custom-caption").show("slide",{ direction: "up" }, 500);
+		  			});
 			      });
 			} else {
 				step.append('<hr><a href="#" class="submit3" next="' + next_step + '">ДАЛЕЕ >></a>');
@@ -150,6 +163,17 @@
 	*/
 	$(function() {
 		var questions_steps = [
+			{text:'1. Вы каждый день думаете о еде, диетах и о том, как похудеть', evals:[1,2,3,4]},
+			{text:'2. Вы используете слабительные после приема пищи', evals:[1,2,3,4]},
+			{text:'3. Вы используете мочегонные средства, чтобы именно похудеть или убрать опухлость лица после кутежа с едой.', evals:[1,2,3,4]},
+			{text:'4. Вы специально организуете себе вырывание: закупая предварительно еду в магазине в больших количествах, закрываясь дома.', evals:[1,2,3,4]},
+			{text:'5. Перед тем, как вырвать Вы едите до боли в желудке в большинстве случае даже трудно встать, чтобы дойти до туалета. (булимия)', evals:[1]},
+			{text:'6. Чувство сытости вызывает у Вас чувство паники (все кроме компульсивного-переедания)', evals:[1,2,4]},
+			{text:'7. Вы разрешаете себе переваривать только "диетичные" по Вашему мнению продукты (обезжиренный творог, огурцы, укроп и тд)', evals:[1,2,3,4]},
+			{text:'8. Вы не можете себе никогда отказать в еде, когда присутствуете на праздниках или гостях где организован большой стол. (компульсивное-переедание, булимия)', evals:[1,3]},
+			{text:'9. У Вас вызывает тревогу отдых на курортах с пометкой "Все включено"', evals:[1,2,3,4]},
+			{text:'10. В большинстве случаев возвращаясь с курорта Вы чувствуете себя еще больше уставшей из-за постоянной борьбы с едой, аппетитом и бесконечными вырываниями.', evals:[1,2,3,4]},
+			{text:'11. Ваши партнеры в личной жизни, а так же друзья, как правило имеют зависимости. (алкоголь, наркотики, игроманинию, секс, еда и тд Либо являются маргинальными личностями: судимости, мошенники и тд)', evals:[1,2,3,4]},	
 			{text:'12. Вы потеряли за последний год резко большой вес.', evals:[2]},
 			{text:'13. Вы ежедневно занимаетесь спортом (дома или в спортзале. Дома можете приседать, если сьели, допустим, йогурт)', evals:[2]},
 			{text:'14. Вы ненавидите слово "жир". К этому слову у Вас зависимое отношение: юмористические фото, картинке в интернете, смотря на себя произносите слово "жир" и видите только его.', evals:[2]},
@@ -185,9 +209,12 @@
 		Anket_Questions = new questionsObject();
 		Anket_Questions.init();
 		Anket_Questions.setQuestions(questions_steps);
-		Anket_Questions.auto_edit_questions($(".step4"), ".step5", 10);
-		Anket_Questions.auto_edit_questions($(".step5"), ".step6", 11);
-		Anket_Questions.auto_edit_questions($(".step6"), "last_step", 9);
+		Anket_Questions.auto_edit_questions($(".step3"), ".step4", 7);
+		/*Anket_Questions.auto_edit_questions($(".step4"), ".step5", 7);
+		Anket_Questions.auto_edit_questions($(".step5"), ".step6", 7);
+		Anket_Questions.auto_edit_questions($(".step6"), ".step7", 7);
+		Anket_Questions.auto_edit_questions($(".step7"), ".step8", 7);
+		*/Anket_Questions.auto_edit_questions($(".step4"), "last_step", 7);
 		Anket_Questions.getResult(".last_step")
 
 	$.each($( ".radio" ),function(){
@@ -240,106 +267,14 @@
 	<div class="step2__description">передвиньте курсор, чтобы изменить вес</div>
 </div>
 
-<div class="steps step3 solution_tip" id="step3">
-	<div class="step3__question">
-		1. Вы каждый день думаете о еде, диетах и о том, как похудеть
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio1" name="radio1" evals="1,2,3,4" value="yes"/><label for="radio1">да</label>
-    	<input type="radio" id="radio2" name="radio1" checked="checked" /><label for="radio2">нет</label>
-	</div>
-	<div class="step3__question">
-		2. Вы используете слабительные после приема пищи
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio3" name="radio2" evals="1,2,3,4" value="yes"/><label for="radio3">да</label>
-    	<input type="radio" id="radio4" name="radio2" checked="checked" /><label for="radio4">нет</label>
-	</div>
-	<div class="step3__question">
-		3. Вы используете мочегонные средства, чтобы именно похудеть или убрать опухлость лица после кутежа с едой.
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio5" name="radio3" evals="1,2,3,4" value="yes"/><label for="radio5">да</label>
-    	<input type="radio" id="radio6" name="radio3" checked="checked" /><label for="radio6">нет</label>
-	</div>
-	<div class="step3__question">
-		4. Вы специально организуете себе вырывание: закупая предварительно еду в магазине в больших количествах, закрываясь дома.
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio7" name="radio4" evals="1,2,3,4" value="yes"/><label for="radio7">да</label>
-    	<input type="radio" id="radio8" name="radio4" checked="checked" /><label for="radio8">нет</label>
-	</div>
-
-	<div class="step3__question">
-		5. Перед тем, как вырвать Вы едите до боли в желудке в большинстве случае даже трудно встать, чтобы дойти до туалета.
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio9" name="radio5" evals="1,2,3,4" value="yes"/><label for="radio9">да</label>
-    	<input type="radio" id="radio10" name="radio5" checked="checked" /><label for="radio10">нет</label>
-	</div>
-
-	<div class="step3__question">
-		6. Чувство сытости вызывает у Вас чувство паники
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio11" name="radio6" evals="1,2,3,4" value="yes"/><label for="radio11">да</label>
-    	<input type="radio" id="radio12" name="radio6" checked="checked" /><label for="radio12">нет</label>
-	</div>
-
-	<div class="step3__question">
-		7. Вы разрешаете себе переваривать только "диетичные" по Вашему мнению продукты (обезжиренный творог, огурцы, укроп и тд)
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio13" name="radio7" evals="1,2,3,4" value="yes"/><label for="radio13">да</label>
-    	<input type="radio" id="radio14" name="radio7" checked="checked" /><label for="radio14">нет</label>
-	</div>
-
-	<div class="step3__question">
-		8. Вы не можете себе никогда отказать в еде, когда присутствуете на праздниках или гостях где организован большой стол.
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio15" name="radio8" evals="1,2,3,4" value="yes"/><label for="radio15">да</label>
-    	<input type="radio" id="radio16" name="radio8" checked="checked" /><label for="radio16">нет</label>
-	</div>
-
-	<div class="step3__question">
-		9. У Вас вызывает тревогу отдых на курортах с пометкой "Все включено"
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio17" name="radio9" evals="1,2,3,4"  value="yes"/><label for="radio17">да</label>
-    	<input type="radio" id="radio18" name="radio9" checked="checked" /><label for="radio18">нет</label>
-	</div>
-
-	<div class="step3__question">
-		10. В большинстве случаев возвращаясь с курорта Вы чувствуете себя еще больше уставшей из-за постоянной борьбы с едой, аппетитом и бесконечными вырываниями.
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio19" name="radio10" evals="1,2,3,4" value="yes"/><label for="radio19">да</label>
-    	<input type="radio" id="radio20" name="radio10" checked="checked" /><label for="radio20">нет</label>
-	</div>
-
-	<div class="step3__question">
-		11. Ваши партнеры в личной жизни, а так же друзья, как правило имеют зависимости. (алкоголь, наркотики, игроманинию, секс, еда и тд Либо являются маргинальными личностями: судимости, мошенники и тд)
-	</div>
-	<div class="radio">
-    	<input type="radio" id="radio21" name="radio11" evals="1,2,3,4" value="yes"/><label for="radio21">да</label>
-    	<input type="radio" id="radio22" name="radio11" checked="checked" /><label for="radio22">нет</label>
-	</div>
-	<hr>
-	<a href="#" class="submit3" next=".step4" you-have="У Вас нет булемии" you-have-not="У Вас булемиия">ДАЛЕЕ >></a>
-</div>
-
-<div class="steps step4" id="step4">
-	
-</div>
-
-<div class="steps step5" id="step5">
-	
-</div>
-
-<div class="steps step6" id="step6">
-	
-</div>
+<div class="steps step3 solution_tip" id="step3"></div>
+<div class="steps step4" id="step4"></div>
+<div class="steps step5" id="step5"></div>
+<div class="steps step6" id="step6"></div>
+<div class="steps step7" id="step7"></div>
+<div class="steps step8" id="step8"></div>
+<div class="steps step9" id="step9"></div>
+<div class="steps step10" id="step10"></div>
 
 <div id="last_step" style="display:none;">
 
@@ -398,7 +333,7 @@
 	}
 
 	$(".reset>li").on("click", function(event){
-		console.log($(this).find("input[name=age]").val());
+		Anket_Questions.setAge($(this).find("input[name=age]").val());
 		$(this).nextAll().hide('explode');
 		$(this).prevAll().hide('explode');
 		var new_img = "rgba(0, 0, 0, 0) url(" + $(this).find("img").attr("src") + ") no-repeat scroll 0% 0% / cover padding-box border-box"
@@ -417,9 +352,9 @@
 			    left: "0px"
 		  	}, 1500
 		  	, function(){
-		  		$(".custom-caption").fadeOut("fast", function(){
+		  		$(".custom-caption").hide("slide",{ direction: "up" }, 500, function(){
 		  			$(".custom-caption").html("Укажите ваш вес");
-		  			$(".custom-caption").fadeIn();
+		  			$(".custom-caption").show("slide",{ direction: "up" }, 500);
 		  		});		  		
 		  		$(".step2").fadeIn("slow");		  		
 		  	});
@@ -448,6 +383,7 @@
 			$(this).remove();
 		});
 		step2.find(".amount").html($("#amount"));
+		Anket_Questions.setWeight(parseInt($("#amount").val()));
 		step2.css("position", "absolute");
 		step2.css("left", "43%");
 		step2.animate({
@@ -457,6 +393,10 @@
 			    top: "60px",
 			    left: "0px"
 		  	}, 1500, function(){
+		  		$(".custom-caption").hide("slide",{ direction: "up" }, 500, function(){
+		  			$(".custom-caption").html("Ответьте на вопросы ");
+		  			$(".custom-caption").show("slide",{ direction: "up" }, 500);
+		  		});
 		  		$(".step3").show("scale", 2500);//check_this
 		  	});
 		$("#amount").css("font-size","20px");
