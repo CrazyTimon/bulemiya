@@ -294,10 +294,10 @@
 		$.each(succ_checked, function(index, value){
 			var evals = $(value).attr("evals").split(",");
 			$.each(evals, function(i,v){
-				if(v=="1"){Anket_Questions.__bulemiya++;}
+				if(v=="1"){Anket_Questions.__bulemiya++}
 				if(v=="2"){Anket_Questions.__anoreksiya++}
 				if(v=="3"){Anket_Questions.__kompulsivnaya_anoreks++}
-				if(v=="4"){Anket_Questions.__bulimist_anoreks++}
+				if(v=="4"){Anket_Questions.__bulimist_anoreks++}/*тут короче добавляем 5 вариант(типа не больны), ну а дальше разберешься не тупой*/
 			});	
 		});
 		console.log(Anket_Questions.check_trouble());
